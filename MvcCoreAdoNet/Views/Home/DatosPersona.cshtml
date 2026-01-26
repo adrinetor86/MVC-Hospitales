@@ -1,0 +1,34 @@
+﻿
+@section styles{
+    <style>
+    .invisible {
+            display: none;
+    }
+    </style>
+}
+@section images{
+    <img src="~/images/champions.png" style="width:150px;height:150px" />
+
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#btnDatos").click(function(){
+            
+                $("#datos li").toggleClass('invisible');
+            })
+        })
+    </script>
+}
+
+@model Persona;
+<h1>Datos persona</h1>
+
+
+<button id="btnDatos" class="btn btn-primary">Mostrar Datos Persona</button>
+
+<ul id="datos"class="datos">
+    <li class="invisible">Nombre: @Model.Nombre </li>
+    <li class="invisible">Apellido: @Model.Apellido</li>
+</ul>
