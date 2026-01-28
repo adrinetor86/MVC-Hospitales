@@ -1,0 +1,28 @@
+﻿@model Hospital
+
+@if (Model != null)
+{
+       <form method="post">
+
+              <label>Id</label>
+              <input type="text"
+                     name="idhospital" class="form-control" hidden="hidden" value="@Model.IdHospital"/>
+
+              <label>Nombre</label>
+              <input type="text"
+                     name="nombre" class="form-control" value="@Model.Nombre"/>
+
+              <label>Direccion</label>
+              <input type="text"
+                     name="direccion" class="form-control" value="@Model.Direccion"/>
+
+              <label>Telefono</label>
+              <input type="text"
+                     name="telefono" class="form-control" value="@Model.Telefono"/>
+              <label>Camas</label>
+              <input type="text"
+                     name="camas" class="form-control" value="@Model.Camas"/>
+
+              <button>Editar</button>
+       </form>
+}

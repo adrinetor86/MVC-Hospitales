@@ -13,7 +13,9 @@ namespace MvcCoreAdoNet.Repositories
 
         public RepositoryHospital()
         {
-            string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITAL;Persist Security Info=True;User ID=SA;Encrypt=True;Trust Server Certificate=True";
+            
+           string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITAL;Persist Security Info=True;User ID=SA;Encrypt=True;Trust Server Certificate=True";
+
             this.cn = new SqlConnection(connectionString);
             this.com = new SqlCommand();
             this.com.Connection = this.cn;
@@ -74,14 +76,77 @@ namespace MvcCoreAdoNet.Repositories
                 hospital.Camas = int.Parse(this.reader["NUM_CAMA"].ToString());
             }
             
-            
-          
-
             await this.cn.CloseAsync();
             await this.reader.CloseAsync();
             this.com.Parameters.Clear();
 
             return hospital;
+        }
+
+
+        public async Task InsertHospitalAsync(
+             int idHospital,string nombre,string direccion,string telefono,int camas)
+        {
+
+            string sql = "INSERT INTO HOSPITAL VALUES (@hospitalcod,@nombre,@direccion,@telefono,@camas)";
+
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.Parameters.AddWithValue("@nombre", nombre);
+            this.com.Parameters.AddWithValue("@direccion", direccion);
+            this.com.Parameters.AddWithValue("@telefono", telefono);
+            this.com.Parameters.AddWithValue("@camas", camas);
+
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            await this.com.ExecuteNonQueryAsync();
+        }
+        
+        public async Task UpdateHospitalAsync(
+             int idHospital,string nombre,string direccion,string telefono,int camas)
+        {
+
+            string sql =
+                "UPDATE HOSPITAL SET NOMBRE=@nombre, DIRECCION=@direccion, TELEFONO=@telefono, NUM_CAMA=@camas " +
+                "WHERE HOSPITAL_COD=@idHospital";
+            
+
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.Parameters.AddWithValue("@nombre", nombre);
+            this.com.Parameters.AddWithValue("@direccion", direccion);
+            this.com.Parameters.AddWithValue("@telefono", telefono);
+            this.com.Parameters.AddWithValue("@camas", camas);
+
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            await this.cn.OpenAsync();
+            
+            
+      
+            await this.com.ExecuteNonQueryAsync();
+            await this.cn.CloseAsync();
+            await this.reader.CloseAsync();
+            this.com.Parameters.Clear();
+        }
+
+
+        public async Task DeleteHospitalAsync(int idHospital)
+        {
+            string sql = "delete from HOSPITAL WHERE HOSPITAL_COD=@hospitalcod";
+            
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            
+            await this.cn.OpenAsync();
+            
+           
+            await this.com.ExecuteNonQueryAsync();
+            await this.reader.CloseAsync();
+            this.com.Parameters.Clear();
         }
         
         
