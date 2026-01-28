@@ -1,12 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model List<Hospital>
+﻿@model List<Hospital>
 
 
-    <h1>Hospitales Ado Net</h1>
+<h1>Hospitales Ado Net</h1>
+
+<a asp-controller="Hospitales"
+asp-action="Details"
+asp-route-id="45">
+    detalles
+</a>
 
 @if (Model != null)
 {
@@ -15,6 +16,7 @@
             <tr>Nombre</tr>
             <tr>Direccion</tr>
             <tr>Telefono</tr>
+            <tr>Acciones</tr>
         </thead>
         <tbody>
 
@@ -24,6 +26,10 @@
                     <td>@hospital.Nombre</td>
                     <td>@hospital.Direccion</td>
                     <td>@hospital.Telefono</td>
+                    <td>
+                        @Html.ActionLink("Details","Details","Hospitales",
+                            new{id=hospital.IdHospital})
+                    </td>
                 </tr>
             }
         </tbody>

@@ -48,5 +48,42 @@ namespace MvcCoreAdoNet.Repositories
             await this.reader.CloseAsync();
             return hospitales;
         }
+
+
+        public async Task<Hospital> FindHospitalAsync(int idHospital)
+        {
+            string sql = "SELECT * FROM HOSPITAL WHERE HOSPITAL_COD=@idHospital";
+
+            this.com.Parameters.AddWithValue("@idHospital", idHospital);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            await this.cn.OpenAsync();
+
+            this.reader = await this.com.ExecuteReaderAsync();
+
+            Hospital hospital = new Hospital();
+
+            //Leemos solo una linea
+            while (await this.reader.ReadAsync())
+            {
+                hospital.IdHospital = int.Parse(this.reader["HOSPITAL_COD"].ToString());
+                hospital.Nombre = this.reader["NOMBRE"].ToString();
+                hospital.Direccion = this.reader["DIRECCION"].ToString();
+                hospital.Telefono = this.reader["TELEFONO"].ToString();
+                hospital.Camas = int.Parse(this.reader["NUM_CAMA"].ToString());
+            }
+            
+            
+          
+
+            await this.cn.CloseAsync();
+            await this.reader.CloseAsync();
+            this.com.Parameters.Clear();
+
+            return hospital;
+        }
+        
+        
     }
 }

@@ -21,5 +21,11 @@ namespace MvcCoreAdoNet.Controllers
             return View(hospitales);
             
         }
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            Hospital hospital = await this.repo.FindHospitalAsync(id);
+            return View(hospital);
+        }
     }
 }
