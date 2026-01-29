@@ -99,7 +99,7 @@ namespace MvcCoreAdoNet.Repositories
 
             this.com.CommandType = CommandType.Text;
             this.com.CommandText = sql;
-
+            await this.cn.OpenAsync();
             await this.com.ExecuteNonQueryAsync();
         }
         
@@ -145,10 +145,94 @@ namespace MvcCoreAdoNet.Repositories
             
            
             await this.com.ExecuteNonQueryAsync();
+            await this.cn.CloseAsync();
             await this.reader.CloseAsync();
             this.com.Parameters.Clear();
         }
-        
-        
+
+
+        public async Task<List<Doctor>> GetDoctoresAsync()
+        {
+            string sql = "SELECT * FROM DOCTOR";
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            await this.cn.OpenAsync();
+            List<Doctor> doctores = new List<Doctor>();
+            this.reader = await this.com.ExecuteReaderAsync();
+            while (await this.reader.ReadAsync())
+            {
+                Doctor doctor = new Doctor();
+
+                doctor.IdDoctor = int.Parse(this.reader["DOCTOR_NO"].ToString());
+                doctor.Apellido = this.reader["APELLIDO"].ToString();
+                doctor.Especialidad = this.reader["ESPECIALIDAD"].ToString();
+
+                doctor.Salario = int.Parse(this.reader["SALARIO"].ToString());
+                doctor.IdHospital = int.Parse(this.reader["HOSPITAL_COD"].ToString());
+
+                doctores.Add(doctor);
+            }
+
+            await this.cn.CloseAsync();
+            await this.reader.CloseAsync();
+            return doctores;
+        }
+
+        public async Task<List<Doctor>> GetDoctoresEspecialidadAsync(string especialidad)
+        {
+            string sql = "SELECT * FROM DOCTOR WHERE ESPECIALIDAD=@especialidad";
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            this.com.Parameters.AddWithValue("@especialidad", especialidad);
+            await this.cn.OpenAsync();
+            List<Doctor> doctores = new List<Doctor>();
+            this.reader = await this.com.ExecuteReaderAsync();
+            while (await this.reader.ReadAsync())
+            {
+                Doctor doctor = new Doctor();
+
+                doctor.IdDoctor = int.Parse(this.reader["DOCTOR_NO"].ToString());
+                doctor.Apellido = this.reader["APELLIDO"].ToString();
+                doctor.Especialidad = this.reader["ESPECIALIDAD"].ToString();
+
+                doctor.Salario = int.Parse(this.reader["SALARIO"].ToString());
+                doctor.IdHospital = int.Parse(this.reader["HOSPITAL_COD"].ToString());
+
+                doctores.Add(doctor);
+            }
+
+            await this.cn.CloseAsync();
+            await this.reader.CloseAsync();
+            this.com.Parameters.Clear();
+            return doctores;
+        }
+
+
+
+        public async Task<List<string>> GetEspecialidadesAsync()
+        {
+            string sql = "SELECT DISTINCT ESPECIALIDAD FROM DOCTOR";
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+
+            this.reader = await this.com.ExecuteReaderAsync();
+            List<string> especialidades = new List<string>();
+            while (await this.reader.ReadAsync())
+            {
+
+                string espe = this.reader["ESPECIALIDAD"].ToString();
+                especialidades.Add(espe);
+            }
+
+            await this.cn.CloseAsync();
+            await this.reader.CloseAsync();
+            return especialidades;
+
+        }
+
+
     }
 }

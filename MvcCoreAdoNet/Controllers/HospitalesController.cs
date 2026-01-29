@@ -42,23 +42,40 @@ namespace MvcCoreAdoNet.Controllers
 
             ViewBag.Mensaje = "Hospital Insertado";
             return View();
-        } 
+        }
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    Hospital hospital = await this.repo.FindHospitalAsync(id);
+        //    return View(hospital);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(Hospital hospital)
+        //{
+        //    await this.repo.UpdateHospitalAsync(hospital.IdHospital, hospital.Nombre, hospital.Direccion,
+        //        hospital.Telefono, hospital.Camas);
+
+        //    ViewBag.Mensaje = "Hospital Modificado";
+
+        //    return View();
+        //}
         public async Task<IActionResult> Edit(int id)
         {
-            Hospital hospital = await this.repo.FindHospitalAsync(id);
+            Hospital hospital =
+                await this.repo.FindHospitalAsync(id);
             return View(hospital);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(Hospital hospital)
         {
-            await this.repo.UpdateHospitalAsync(hospital.IdHospital, hospital.Nombre, hospital.Direccion,
-                hospital.Telefono, hospital.Camas);
-
-            ViewBag.Mensaje = "Hospital Modificado";
-            
-            return View();
+            await this.repo.UpdateHospitalAsync
+                (hospital.IdHospital, hospital.Nombre, hospital.Direccion
+                , hospital.Telefono, hospital.Camas);
+            ViewData["MENSAJE"] = "Hospital modificado";
+            //DESPUES DE MODIFICAR, NOS VAMOS AL IACTIONRESULT DE INDEX
+            return RedirectToAction("Index");
         }
-        
+
         public async Task<IActionResult> Delete(int id)
         {
             await this.repo.DeleteHospitalAsync(id);
