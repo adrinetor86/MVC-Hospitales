@@ -1,0 +1,40 @@
+﻿@model List<Usuario>
+
+@{
+    Layout = null;
+}
+
+
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var usuario in Model){
+        <tr>
+            
+            <td>@usuario.IdUsuario</td>
+            <td>@usuario.Nombre</td>
+            <td>@usuario.Apellidos</td>
+            <td>@usuario.Email</td>
+            <td>
+                <img style="width: 120px;height: 120px" src="@usuario.Imagen"/>
+                
+            </td>
+            <td>
+                <a asp-controller="Usuario"
+                   asp-action="Details"
+                   asp-route-idUsuario="@usuario.IdUsuario">Details</a>
+            </td>
+            
+        </tr>
+    }
+    </tbody>
+</table>

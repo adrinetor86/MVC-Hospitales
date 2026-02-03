@@ -1,0 +1,36 @@
+﻿@model Usuario
+
+@{
+    Layout = null;
+}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>Imagen</th>
+        <th>Actividades</th>
+        <th>Fecha Evento</th>
+        <th>Curso</th>
+        
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            
+            <td>@Model.IdCurso</td>
+            <td>@Model.Nombre</td>
+            <td>@Model.Apellidos</td>
+            <td>@Model.Email</td>
+            <td>
+                <img style="width: 120px;height: 120px" src="@Model.Imagen"/>
+            </td>
+            <td>@Model.Actividad</td>
+            <td>@Model.FechaEvento</td>
+            <td>@Model.Curso</td>
+        </tr>
+    </tbody>
+</table>

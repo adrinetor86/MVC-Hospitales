@@ -1,0 +1,31 @@
+﻿@model Plantilla
+
+@if (Model != null)
+{
+    <form method="post">
+
+        <label for="">Hospital Cod:</label>
+        <input type="text" class="form-control" name="hosp_cod" value="@Model.Hospital_Cod">
+
+        <label for="">Sala Cod:</label>
+        <input type="text" class="form-control" name="sala_cod" value="@Model.Sala_Cod">
+
+        <input type="text" class="form-control" hidden name="empleado_no" value="@Model.Empleado_No">
+
+        <label for="">Apellido:</label>
+        <input type="text" class="form-control" name="apellido" value="@Model.Apellido">
+
+        <label for="">Funcion:</label>
+        <input type="text" class="form-control" name="funcion" value="@Model.Funcion">
+
+        <label for="">Turno:</label>
+        <input type="text" class="form-control" name="turno" value="@Model.Turno">
+
+        <label for="">Salario:</label>
+        <input type="text" class="form-control" name="salario" value="@Model.Salario">
+
+
+        <button class="btn btn-primary">Update</button>
+    </form>
+
+}
