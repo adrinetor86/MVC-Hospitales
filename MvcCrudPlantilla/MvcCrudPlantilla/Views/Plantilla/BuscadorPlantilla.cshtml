@@ -1,0 +1,59 @@
+﻿@model ResumenPlantilla
+@{
+    
+    List<string> funciones = (List<string>)ViewData["FUNCIONES"];
+}
+
+
+<form method="post">
+
+    <label for="">Funciones: </label>
+    <select name="funcion" class="form-control">
+        @foreach (var funcion in funciones )
+        {
+            <option>@funcion</option>
+        }
+    </select>
+
+    <button class="btn btn-primary">Buscar</button>
+</form>
+
+
+
+@if (Model != null)
+{
+    
+    <ul class="list-group">
+        <li>@Model.MaxSalario</li>
+        <li>@Model.SumSalario</li>
+        <li>@Model.MediaSalario</li>
+    </ul>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Hosp</th>
+            <th>Sala</th>
+            <th>Apellido</th>
+            <th>Funcion</th>
+            <th>Turno</th>
+            <th>Salario</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var empleado in Model.Plantillas)
+        {
+            <tr>
+                <td>@empleado.Hospital_Cod</td>
+                <td>@empleado.Sala_Cod</td>
+                <td>@empleado.Apellido</td>
+                <td>@empleado.Funcion</td>
+                <td>@empleado.Turno</td>
+                <td>@empleado.Salario</td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,54 @@
+﻿@model List<Plantilla>
+
+<h1>Plantilla</h1>
+
+<a class="link-info" asp-controller="Plantilla"
+   asp-action="BuscadorPlantilla">Buscador Plantillas</a>
+
+<a class="btn btn-primary"
+   asp-controller="Plantilla"
+   asp-action="Insert"
+  >
+    Insert
+</a>
+
+@if (Model != null)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Hosp Id</th>
+            <th>Sala</th>
+            <th>Empleado Nº</th>
+            <th>Apellido</th>
+            <th>Funcion</th>
+            <th>Turno</th>
+            <th>Salario</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var plantilla in Model)
+        {
+            <tr>
+                <td>@plantilla.Hospital_Cod</td>
+                <td>@plantilla.Sala_Cod</td>
+                <td>@plantilla.Empleado_No</td>
+                <td>@plantilla.Apellido</td>
+                <td>@plantilla.Funcion</td>
+                <td>@plantilla.Turno</td>
+                <td>@plantilla.Salario</td>
+                <td>
+                    <a class="btn btn-info" asp-action="Details" asp-route-empleado_no="@plantilla.Empleado_No">Details</a>
+                    <a class="btn btn-warning" asp-action="Update" asp-route-empleado_no="@plantilla.Empleado_No">Update</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@plantilla.Empleado_No">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    @ViewData["MENSAJE"]
+}
