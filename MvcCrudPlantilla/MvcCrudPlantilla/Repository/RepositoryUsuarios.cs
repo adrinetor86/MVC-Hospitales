@@ -4,6 +4,28 @@ using MvcCrudPlantilla.Models;
 
 namespace MvcCrudPlantilla.Repository;
 
+
+// alter view VistaActividadesUser 
+//     as 
+//     select 
+// u.idusuario,
+// u.nombre,
+// u.apellidos,
+// u.email, 
+// u.imagen,
+// a.nombre as actividad,
+// e.fecha_evento,
+// i.quiere_ser_capitan,
+// c.nombre as curso
+// --select *
+//     from USUARIOSTAJAMAR as u
+//     INNER JOIN CURSOSTAJAMAR AS c ON u.IDCURSO=c.IDCURSO
+// INNER JOIN INSCRIPCIONES i ON u.IDUSUARIO = i.id_usuario
+// INNER JOIN EVENTO_ACTIVIDADES ea ON i.IdEventoActividad = ea.IdEventoActividad
+// INNER JOIN ACTIVIDADES a ON ea.IdActividad = a.id_actividad
+// INNER JOIN EVENTOS e ON ea.IdEvento = e.id_evento;
+// go
+
 public class RepositoryUsuarios
 {
 
@@ -16,24 +38,7 @@ public class RepositoryUsuarios
 
     public RepositoryUsuarios()
     {
-        string sql = @"select 
-        u.IDUSUARIO,
-                u.NOMBRE,
-                u.APELLIDOS,
-                u.EMAIL,
-                u.IMAGEN,
-                c.NOMBRE as curso,
-                a.nombre as actividad,
-                e.fecha_evento,
-                i.quiere_ser_capitan,
-                i.fecha_inscripcion
-   
-        from USUARIOSTAJAMAR as u
-        INNER JOIN CURSOSTAJAMAR AS c ON u.IDCURSO=c.IDCURSO
-        INNER JOIN INSCRIPCIONES i ON u.IDUSUARIO = i.id_usuario
-        INNER JOIN EVENTO_ACTIVIDADES ea ON i.IdEventoActividad = ea.IdEventoActividad
-        INNER JOIN ACTIVIDADES a ON ea.IdActividad = a.id_actividad
-        INNER JOIN EVENTOS e ON ea.IdEvento = e.id_evento";
+        string sql = "Select * from VistaActividadesUser";
         
         
         string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITAL;User ID=sa;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
@@ -79,21 +84,28 @@ public class RepositoryUsuarios
        var consulta= from datos in tablaUsuario.AsEnumerable()
             where datos.Field<int>("IDUSUARIO")==idUsuario
             select datos;
-       
-     
-        var row = consulta.First();
-        Usuario usuario = new Usuario();
+
+       if (consulta.Count() == 0)
+       {
+           return null;
+       }
+       else
+       {
+           var row = consulta.First();
+           Usuario usuario = new Usuario();
    
-                    usuario.IdUsuario = row.Field<int>("IDUSUARIO");
-                    usuario.Nombre = row.Field<string>("NOMBRE");
-                    usuario.Apellidos = row.Field<string>("APELLIDOS");
-                    usuario.Email = row.Field<string>("EMAIL");
-                    usuario.Imagen = row.Field<string>("IMAGEN");
-                    usuario.Actividad = row.Field<string>("ACTIVIDAD");
-                    usuario.FechaEvento = row.Field<DateTime>("FECHA_EVENTO");
-                    usuario.QuiereCapitan = row.Field<Boolean>("QUIERE_SER_CAPITAN");
-                    usuario.Curso = row.Field<string>("CURSO");
+           usuario.IdUsuario = row.Field<int>("IDUSUARIO");
+           usuario.Nombre = row.Field<string>("NOMBRE");
+           usuario.Apellidos = row.Field<string>("APELLIDOS");
+           usuario.Email = row.Field<string>("EMAIL");
+           usuario.Imagen = row.Field<string>("IMAGEN");
+           usuario.Actividad = row.Field<string>("ACTIVIDAD");
+           usuario.FechaEvento = row.Field<DateTime>("FECHA_EVENTO");
+           usuario.QuiereCapitan = row.Field<Boolean>("QUIERE_SER_CAPITAN");
+           usuario.Curso = row.Field<string>("CURSO");
         
-        return usuario;
+           return usuario;   
+       }
+        
     }
 }
